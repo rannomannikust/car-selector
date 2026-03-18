@@ -12,3 +12,12 @@ datasource:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jpa:
+    hibernate:
+      ddl-auto: validate # Nüüd Hibernate ainult kontrollib, kas tabelid on olemas
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
