@@ -9,40 +9,42 @@
 
     <h2>Palun sisestage enda kontaktandmed ning automargid, millest olete huvitatud</h2>
 
-    <form action="/save" method="POST">
-        
-        <div>
-            <label for="fullName">Ees- ja perekonnanimi:</label>
-            <input type="text" id="fullName" name="fullName" required>
-        </div>
+<form th:action="@{/save}" th:object="${userSelection}" method="post">
+    
+    <div th:if="${successMessage}" style="color: green; font-weight: bold;">
+        <p th:text="${successMessage}"></p>
+    </div>
 
-        <div>
-            <label for="phone">Kontakttelefon:</label>
-            <input type="tel" id="phone" name="phone" required>
-        </div>
+    <div>
+        <label>Eesnimi:</label>
+        <input type="text" th:field="*{firstName}" />
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;"></p>
+    </div>
 
-        <div>
-            <label for="carBrands">Automargid:</label>
-            <select id="carBrands" name="selectedCarBrands" multiple required>
-                <option th:each="brand : ${carBrands}" 
-                        th:value="${brand.id}" 
-                        th:utext="${brand.displayName}">
-                </option>
-            </select>
-        </div>
+    <div>
+        <label>Perenimi:</label>
+        <input type="text" th:field="*{lastName}" />
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;"></p>
+    </div>
 
-        <div>
-            <label for="hasLicense">
-                <input type="checkbox" id="hasLicense" name="hasLicense">
-                Kas Teil on kehtiv juhiluba?
-            </label>
-        </div>
+    <div>
+        <label>Automargid:</label>
+        <select th:field="*{selectedCarBrandIds}" multiple required>
+            <option th:each="brand : ${carBrands}" 
+                    th:value="${brand.id}" 
+                    th:utext="${brand.displayName}">
+            </option>
+        </select>
+        <p th:if="${#fields.hasErrors('selectedCarBrandIds')}" th:errors="*{selectedCarBrandIds}" style="color: red;"></p>
+    </div>
+    <div>
+    <label for="hasLicense">
+        <input type="checkbox" id="hasLicense" name="hasLicense">
+        Kas Teil on kehtiv juhiluba?
+    </label>
 
-        <div>
-            <button type="submit">Salvesta</button>
-        </div>
-
-    </form>
+    <button type="submit">Salvesta</button>
+</form>
 
 </body>
 </html>
