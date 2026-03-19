@@ -10,7 +10,7 @@
     <h2>Palun sisestage enda kontaktandmed ning automargid, millest olete huvitatud</h2>
 
 <form th:action="@{/save}" th:object="${userSelection}" method="post">
-    
+    <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
     <div th:if="${successMessage}" style="color: green; font-weight: bold;">
         <p th:text="${successMessage}"></p>
     </div>
@@ -38,12 +38,12 @@
         <p th:if="${#fields.hasErrors('selectedCarBrandIds')}" th:errors="*{selectedCarBrandIds}" style="color: red;"></p>
     </div>
     <div>
-    <label for="hasLicense">
-        <input type="checkbox" id="hasLicense" name="hasLicense">
-        Kas Teil on kehtiv juhiluba?
-    </label>
-
-    <button type="submit">Salvesta</button>
+        <label for="hasLicense">
+            <input type="checkbox" th:field="*{hasLicense}" id="hasLicense" name="hasLicense">
+            Kas Teil on kehtiv juhiluba?
+        </label>
+    </div>
+   <button type="submit">Salvesta</button>
 </form>
 
 </body>

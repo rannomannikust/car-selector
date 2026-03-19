@@ -40,12 +40,17 @@ public class CarBrandController {
                                 BindingResult bindingResult, 
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
+
+        // rida lisatud debugimiseks        // :
+        //System.out.println("KONTROLLER: Vormi andmed saabusid! Vigu leiti: " + bindingResult.getErrorCount());                            
         
         if (bindingResult.hasErrors()) {
             // Kui on vigu, laeme automargid ja näitame vormi uuesti
             model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands());
             return "index";
         }
+
+        //carBrandService.saveUserSelection(selection);
 
         // Kui vigu pole, võime saata teate 
         redirectAttributes.addFlashAttribute("successMessage", "Andmed on edukalt kontrollitud ja vastu võetud!");

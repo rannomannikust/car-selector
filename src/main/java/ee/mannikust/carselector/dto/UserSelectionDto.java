@@ -16,4 +16,6 @@ public class UserSelectionDto {
 
     @NotEmpty(message = "Vali vähemalt üks automark")
     private List<Long> selectedCarBrandIds;
+
+    private boolean hasLicense; // Uus väli, mis näitab, kas kasutajal on juhiluba
 }

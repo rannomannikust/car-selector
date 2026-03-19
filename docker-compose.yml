@@ -3,16 +3,15 @@ services:
     image: postgres:16-alpine
     container_name: car-selector-db
     environment:
-      POSTGRES_DB: car_selector
-      POSTGRES_USER: caruser
-      POSTGRES_PASSWORD: carpassword
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432"
+        - "${DB_PORT}:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U caruser -d car_selector"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+        test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+        timeout: 5s
+        retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -23,9 +22,9 @@ services:
         - "8080:8080"
       environment:
         # Ühendame äpi andmebaasiga kasutades teenuse nime "db"
-        SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/car_selector
-        SPRING_DATASOURCE_USERNAME: caruser
-        SPRING_DATASOURCE_PASSWORD: carpassword
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+        SPRING_DATASOURCE_USERNAME: ${DB_USER}
+        SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
         SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       depends_on:
         db:
