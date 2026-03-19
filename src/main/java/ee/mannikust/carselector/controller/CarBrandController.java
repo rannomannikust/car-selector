@@ -50,7 +50,7 @@ public class CarBrandController {
             return "index";
         }
 
-        //carBrandService.saveUserSelection(selection);
+        carBrandService.saveUserSelection(selection);
 
         // Kui vigu pole, võime saata teate 
         redirectAttributes.addFlashAttribute("successMessage", "Andmed on edukalt kontrollitud ja vastu võetud!");
