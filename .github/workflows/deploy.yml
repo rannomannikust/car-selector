@@ -5,6 +5,9 @@ on:
     branches:
       - main  # Käivitub, kui pushid koodi main harru
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -24,11 +27,20 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+
+      - name: Copy docker-compose via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/opt/car-selector"
 
       - name: Deploy to VM via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -37,7 +49,6 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd /opt/car-selector  # Veendu, et see kaust eksisteerib serveris!
+            cd /opt/car-selector
             docker compose pull
-            docker compose down
-            docker compose up -d
+            docker compose up -d --remove-orphans
