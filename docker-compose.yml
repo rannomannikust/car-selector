@@ -19,17 +19,23 @@ services:
       #build: .
       image: ${IMAGE_NAME}
       container_name: car-selector-app
-      ports:
-        - "8080:8080"
-      environment:
-        # Ühendame äpi andmebaasiga kasutades teenuse nime "db"
-        SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
-        SPRING_DATASOURCE_USERNAME: ${DB_USER}
-        SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-        SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      depends_on:
-        db:
-          condition: service_healthy
+  networks:
+    - traefik-public
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.carselector.rule=Host(`carselector.mannikust.ee`)"
+    - "traefik.http.routers.carselector.entrypoints=websecure"
+    - "traefik.http.routers.carselector.tls.certresolver=letsencrypt"
+    - "traefik.http.services.carselector.loadbalancer.server.port=8080"
+  environment:
+    # Ühendame äpi andmebaasiga kasutades teenuse nime "db"
+    SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+    SPRING_DATASOURCE_USERNAME: ${DB_USER}
+    SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+  depends_on:
+    db:
+      condition: service_healthy
 
 volumes:
   postgres_data:
