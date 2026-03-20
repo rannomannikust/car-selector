@@ -17,7 +17,7 @@ services:
 
   app:
       #build: .
-      image: ghcr.io/${GITHUB_REPOSITORY}:latest
+      #image: ghcr.io/${GITHUB_REPOSITORY}:latest
       container_name: car-selector-app
       ports:
         - "8080:8080"
