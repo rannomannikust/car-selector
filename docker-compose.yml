@@ -11,7 +11,9 @@ services:
     healthcheck:
         test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
         timeout: 5s
-        retries: 5
+        retries: 20
+        start_period: 20s
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -33,6 +35,8 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_CONNECT_RETRIES: 10
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 30000
     depends_on:
       db:
         condition: service_healthy
