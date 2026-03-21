@@ -9,7 +9,7 @@
 
     <h2>Palun sisestage enda kontaktandmed ning automargid, millest olete huvitatud</h2>
 
-<form th:action="@{/save}" th:object="${userSelection}" method="post">
+<form th:action="@{/save}" th:object="${userSelectionDto}" method="post">
     <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
     <div th:if="${successMessage}" style="color: green; font-weight: bold;">
         <p th:text="${successMessage}"></p>

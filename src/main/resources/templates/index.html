@@ -29,7 +29,7 @@
                 <span th:text="${successMessage}"></span>
             </div>
 
-            <form th:action="@{/save}" th:object="${userSelection}" method="post">
+            <form th:action="@{/save}" th:object="${userSelectionDto}" method="post">
 
                 <!-- First name -->
                 <div class="mb-3">
