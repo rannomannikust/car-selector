@@ -27,8 +27,8 @@ public class CarBrandController {
         model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands());
 
         // Lisame tühja objekti, et vormil oleks midagi, millega end siduda
-        if (!model.containsAttribute("userSelection")) {
-            model.addAttribute("userSelection", new UserSelectionDto());
+        if (!model.containsAttribute("userSelectionDto")) {
+            model.addAttribute("userSelectionDto", new UserSelectionDto());
         }
         
         // Tagastab faili nime, mida Spring otsib kataloogist src/main/resources/templates/
@@ -36,7 +36,7 @@ public class CarBrandController {
     }
 
     @PostMapping("/save")
-    public String saveSelection(@Valid @ModelAttribute("userSelection") UserSelectionDto selection, 
+    public String saveSelection(@Valid @ModelAttribute("userSelectionDto") UserSelectionDto selection, 
                                 BindingResult bindingResult, 
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
