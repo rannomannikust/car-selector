@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class CarBrandController {
-
+    private static final Logger log = LoggerFactory.getLogger(CarBrandController.class);
     private final CarBrandService carBrandService;
 
     // Süstime teenuse (Service) kontrollerisse
@@ -43,17 +45,20 @@ public class CarBrandController {
 
         // rida lisatud debugimiseks        // :
         //System.out.println("KONTROLLER: Vormi andmed saabusid! Vigu leiti: " + bindingResult.getErrorCount());                            
-        
+        log.info("TEHNILINE: Alustan andmete salvestamist kasutajale: {} {}", selection.getFirstName(), selection.getLastName());
+
         if (bindingResult.hasErrors()) {
             // Kui on vigu, laeme automargid ja näitame vormi uuesti
             model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands());
+            log.warn("AUDIT: Kasutaja sisestas vigased andmed: {}", bindingResult.getAllErrors());
             return "index";
         }
-
+        
         carBrandService.saveUserSelection(selection);
 
         // Kui vigu pole, võime saata teate 
         redirectAttributes.addFlashAttribute("successMessage", "Andmed on edukalt kontrollitud ja vastu võetud!");
+        log.info("AUDIT: Kasutaja valik edukalt salvestatud andmebaasi.");
         return "redirect:/";
     }
 
