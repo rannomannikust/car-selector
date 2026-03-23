@@ -8,5 +8,4 @@ import lombok.Data;
 public class CarBrandDto {
     private Long id;
     private String displayName; 
-    private int level;
 }
