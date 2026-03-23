@@ -59,7 +59,7 @@
                     <select th:field="*{selectedCarBrandIds}" multiple required class="form-select" size="10" >
                         <option th:each="brand : ${carBrands}"
                                 th:value="${brand.id}"
-                                th:utext="${brand.displayName}">
+                                th:utext="${brand.indentation} + #{'brand.name.' + brand.name.replace(' ', '.')}">
                         </option>
                     </select>
                     <div class="text-danger small" 
