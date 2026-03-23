@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CarBrandDto {
     private Long id;
-    private String displayName; // Siia paneme nime koos HTML-tühikutega, nt "&nbsp;&nbsp;C 160"
+    private String displayName; 
+    private int level;
 }
