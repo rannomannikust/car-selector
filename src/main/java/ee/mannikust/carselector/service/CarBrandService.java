@@ -8,11 +8,13 @@ import ee.mannikust.carselector.repository.CarBrandRepository;
 import ee.mannikust.carselector.repository.UserSelectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +28,20 @@ public class CarBrandService {
      * Tagastab kõik automargid ja mudelid ühes lamedas (flat) nimekirjas,
      * nimed on HTML tühikutega trepitud.
      */
-    public List<CarBrandDto> getHierarchicalCarBrands() {
+    public List<CarBrandDto> getHierarchicalCarBrands(Locale locale) {
         List<CarBrandDto> result = new ArrayList<>();
         
         // 1. Otsime kõik peamised margid (parent on null), tähestikujärjekorras
         List<CarBrand> mainBrands = repository.findByParentIsNullOrderByNameAsc();
 
         for (CarBrand mainBrand : mainBrands) {
+            String translated = translateBrandName(mainBrand.getName(), locale);
             // Lisame peamise margi nimekirja (ilma tühikuteta)
-            result.add(new CarBrandDto(mainBrand.getId(), mainBrand.getName()));
-            
+            //result.add(new CarBrandDto(mainBrand.getId(), mainBrand.getName()));
+            result.add(new CarBrandDto(mainBrand.getId(), translated));            
+
             // 2. Otsime selle margi kõik alam-mudelid (ja nende alam-mudelid)
-            addSubBrands(mainBrand.getId(), 1, result);
+            addSubBrands(mainBrand.getId(), 1, result, locale);
         }
         
         return result;
@@ -46,17 +50,18 @@ public class CarBrandService {
     /**
      * Rekursiivne abimeetod, mis otsib vanema ID järgi mudelid ja alam-mudelid ja lisab neile õige arvu tühikuid
      */
-    private void addSubBrands(Long parentId, int level, List<CarBrandDto> result) {
+    private void addSubBrands(Long parentId, int level, List<CarBrandDto> result, Locale locale) {
         List<CarBrand> subBrands = repository.findByParentIdOrderByNameAsc(parentId);
 
         for (CarBrand subBrand : subBrands) {
             // Tekitame HTML tühikud (non-breaking spaces) vastavalt hierarhia sügavusele
+            String translated = translateBrandName(subBrand.getName(), locale);
             String prefix = "&nbsp;".repeat(level);
-            
-            result.add(new CarBrandDto(subBrand.getId(), prefix + subBrand.getName()));
+            result.add(new CarBrandDto(subBrand.getId(), prefix + translated));
+
             
             // Juhuks, kui mudelil on omakorda alam-mudelid (nt 3 seeria -> 316), kutsume meetodit uuesti välja
-            addSubBrands(subBrand.getId(), level + 1, result);
+            addSubBrands(subBrand.getId(), level + 1, result, locale);
         }
     }
     
@@ -74,5 +79,13 @@ public class CarBrandService {
         userSelectionRepository.save(selection);
     }    
     
+    @Autowired
+    private MessageSource messageSource;
+
+    private String translateBrandName(String name, Locale locale) {
+        String key = "brand.name." + name.replace(" ", ".");
+        return messageSource.getMessage(key, null, name, locale);
+
+    }
 
 }
