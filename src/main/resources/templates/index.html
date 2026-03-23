@@ -60,8 +60,7 @@
                         <option th:each="brand : ${carBrands}"
                                 th:value="${brand.id}"
                                 th:text="${brand.displayName}"
-                                th:attr="--level:${brand.level}">
->
+                                th:attr="style='--level:' + ${brand.level}">
                         </option>
                     </select>
                     <div class="text-danger small" 
