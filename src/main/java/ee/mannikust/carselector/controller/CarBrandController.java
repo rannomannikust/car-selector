@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Locale;
+
 
 @Controller
 public class CarBrandController {
@@ -24,9 +26,9 @@ public class CarBrandController {
     }
 
     @GetMapping("/")
-    public String showIndexPage(Model model) {
+    public String showIndexPage(Model model, Locale locale) {
         // Kutsume välja oma treppimise loogika ja lisame tulemuse Thymeleaf mudelisse
-        model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands());
+        model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands(locale));
 
         // Lisame tühja objekti, et vormil oleks midagi, millega end siduda
         if (!model.containsAttribute("userSelectionDto")) {
@@ -41,7 +43,8 @@ public class CarBrandController {
     public String saveSelection(@Valid @ModelAttribute("userSelectionDto") UserSelectionDto selection, 
                                 BindingResult bindingResult, 
                                 Model model,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                Locale locale) {
 
         // rida lisatud debugimiseks        // :
         //System.out.println("KONTROLLER: Vormi andmed saabusid! Vigu leiti: " + bindingResult.getErrorCount());                            
@@ -49,7 +52,7 @@ public class CarBrandController {
 
         if (bindingResult.hasErrors()) {
             // Kui on vigu, laeme automargid ja näitame vormi uuesti
-            model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands());
+            model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands(locale));
             log.warn("AUDIT: Kasutaja sisestas vigased andmed: {}", bindingResult.getAllErrors());
             return "index";
         }
