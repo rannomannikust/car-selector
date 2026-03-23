@@ -21,13 +21,6 @@ public class CarBrandService {
     private final CarBrandRepository repository;
     private final UserSelectionRepository userSelectionRepository;
 
-    // Spring süstib (inject) meile automaatselt repositooriumi
-    /* 
-    public CarBrandService(CarBrandRepository repository, UserSelectionRepository userSelectionRepository) {
-        this.repository = repository;
-        this.userSelectionRepository = userSelectionRepository;
-    }
-    */
 
     /**
      * Tagastab kõik automargid ja mudelid ühes lamedas (flat) nimekirjas,
