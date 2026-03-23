@@ -19,8 +19,11 @@ import java.util.Locale;
 @Service
 @RequiredArgsConstructor
 public class CarBrandService {
-
+    
+    @Autowired
     private final CarBrandRepository repository;
+
+    @Autowired
     private final UserSelectionRepository userSelectionRepository;
 
 
@@ -38,7 +41,7 @@ public class CarBrandService {
             String translated = translateBrandName(mainBrand.getName(), locale);
             // Lisame peamise margi nimekirja (ilma tühikuteta)
             //result.add(new CarBrandDto(mainBrand.getId(), mainBrand.getName()));
-            result.add(new CarBrandDto(mainBrand.getId(), translated));            
+            result.add(new CarBrandDto(mainBrand.getId(), translated, 0));            
 
             // 2. Otsime selle margi kõik alam-mudelid (ja nende alam-mudelid)
             addSubBrands(mainBrand.getId(), 1, result, locale);
@@ -56,8 +59,7 @@ public class CarBrandService {
         for (CarBrand subBrand : subBrands) {
             // Tekitame HTML tühikud (non-breaking spaces) vastavalt hierarhia sügavusele
             String translated = translateBrandName(subBrand.getName(), locale);
-            String prefix = "&nbsp;".repeat(level);
-            result.add(new CarBrandDto(subBrand.getId(), prefix + translated));
+            result.add(new CarBrandDto(subBrand.getId(), translated, level));
 
             
             // Juhuks, kui mudelil on omakorda alam-mudelid (nt 3 seeria -> 316), kutsume meetodit uuesti välja
