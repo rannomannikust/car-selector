@@ -59,8 +59,7 @@
                     <select th:field="*{selectedCarBrandIds}" multiple required class="form-select" size="10" >
                         <option th:each="brand : ${carBrands}"
                                 th:value="${brand.id}"
-                                th:text="${brand.displayName}"
-                                th:attr="style='--level:' + ${brand.level}">
+                                th:utext="${brand.displayName}">
                         </option>
                     </select>
                     <div class="text-danger small" 
