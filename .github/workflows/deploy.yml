@@ -39,7 +39,7 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yml,docker-compose.prod.yml"
           target: "/opt/car-selector"
 
       - name: Deploy to VM via SSH
@@ -50,6 +50,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd /opt/car-selector
-            docker compose down
-            docker compose pull
-            docker compose up -d --remove-orphans
+            # Määrame mõlemad failid -f lipuga. Järjekord on oluline!
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml down
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
