@@ -3,6 +3,8 @@ package ee.mannikust.carselector.controller;
 import ee.mannikust.carselector.service.CarBrandService;
 import ee.mannikust.carselector.dto.UserSelectionDto;
 import jakarta.validation.Valid;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +20,13 @@ import java.util.Locale;
 @Controller
 public class CarBrandController {
     private static final Logger log = LoggerFactory.getLogger(CarBrandController.class);
-    private final CarBrandService carBrandService;
+    private final CarBrandService carBrandService;   
+    private final MessageSource messageSource;
 
     // Süstime teenuse (Service) kontrollerisse
-    public CarBrandController(CarBrandService carBrandService) {
+    public CarBrandController(CarBrandService carBrandService, MessageSource messageSource) {
         this.carBrandService = carBrandService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/")
@@ -58,9 +62,10 @@ public class CarBrandController {
         }
         
         carBrandService.saveUserSelection(selection);
-
         // Kui vigu pole, võime saata teate 
-        redirectAttributes.addFlashAttribute("successMessage", "Andmed on edukalt kontrollitud ja vastu võetud!");
+        String msg = messageSource.getMessage("success.message", null, locale);
+        redirectAttributes.addFlashAttribute("successMessage", msg);
+        //redirectAttributes.addFlashAttribute("successMessage", "Andmed on edukalt kontrollitud ja vastu võetud!");
         log.info("AUDIT: Kasutaja valik edukalt salvestatud andmebaasi.");
         return "redirect:/";
     }

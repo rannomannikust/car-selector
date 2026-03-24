@@ -8,13 +8,13 @@ import java.util.List;
 @Data
 public class UserSelectionDto {
 
-    @NotBlank(message = "Eesnimi on kohustuslik")
+    @NotBlank(message = "{validation.firstname.empty}")
     private String firstName;
 
-    @NotBlank(message = "Perenimi on kohustuslik")
+    @NotBlank(message = "{validation.lastname.empty}")
     private String lastName;
 
-    @NotEmpty(message = "Vali vähemalt üks automark")
+    @NotEmpty(message = "{validation.brands.empty}")
     private List<Long> selectedCarBrandIds;
 
     private boolean hasLicense; // Uus väli, mis näitab, kas kasutajal on juhiluba
