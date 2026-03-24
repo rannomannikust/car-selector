@@ -46,7 +46,7 @@
                 <!-- Last name -->
                 <div class="mb-3">
                     <label class="form-label" th:text="#{form.lastname}">Perenimi</label>
-                    <input type="text" th:field="*{lastName}" class="form-control" required>
+                    <input type="text" th:field="*{lastName}" class="form-control">
                     <p class="text-danger small"
                          th:if="${#fields.hasErrors('lastName')}" 
                          th:errors="*{lastName}" style="color: red;">
@@ -56,7 +56,7 @@
                 <!-- Car brands -->
                 <div class="mb-3">
                     <label class="form-label" th:text="#{form.brands}">Automargid</label>
-                    <select th:field="*{selectedCarBrandIds}" multiple required class="form-select" size="10" >
+                    <select th:field="*{selectedCarBrandIds}" multiple class="form-select" size="10" >
                         <option th:each="brand : ${carBrands}"
                                 th:value="${brand.id}"
                                 th:utext="${brand.displayName}">
