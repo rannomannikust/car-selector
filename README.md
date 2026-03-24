@@ -82,13 +82,13 @@ name: The brand/model name (used as a key for i18n).
 parent_id (FK): Self-reference to car_brands.id. Defines the hierarchy.
 Logic: If parent_id is null, the brand is a top-level category (e.g., Toyota). If it has a parent_id, it is a sub-model (e.g., Corolla).
 
-## 2. Framework Justifications (Valikute põhjendused)
+## 2. Framework Justifications
 Spring Boot 3.x: Chosen for rapid development, built-in dependency injection, and seamless integration with the Spring ecosystem.
 PostgreSQL & Flyway: PostgreSQL provides reliable data persistence, while Flyway ensures that the database schema is version-controlled and automatically migrated across all environments (Local, CI, Production).
 Thymeleaf: Used for server-side rendering to keep the project's architecture simple and maintainable while providing dynamic UI capabilities.
 Mockito & JUnit 5: Essential for achieving the 98% code coverage. They allow for fast, isolated unit testing of the recursive logic without external dependencies.
 
-## 3. Development & Deployment (Paigaldus ja arendus)
+## 3. Development & Deployment
 Automatic Setup: The environment is fully containerized with Docker Compose. A single command (docker-compose up) sets up the application, the database, and the Traefik reverse proxy.
 
 CI/CD: A GitHub Actions / GitLab CI pipeline is integrated to automate building, testing, and deploying to the live environment at carselector.mannikust.ee.
