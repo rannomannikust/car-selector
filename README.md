@@ -72,8 +72,8 @@ The application is fully containerized.
 ---
 Developed by **Ranno Männikust**, March 2026.
 
-Documentation & Architecture
-1. Data Model 
+# Documentation & Architecture
+## 1. Data Model 
 The application uses a self-referencing relational model to support an infinite hierarchy of car brands.
 
 CarBrand Entity:
@@ -82,13 +82,13 @@ name: The brand/model name (used as a key for i18n).
 parent_id (FK): Self-reference to car_brands.id. Defines the hierarchy.
 Logic: If parent_id is null, the brand is a top-level category (e.g., Toyota). If it has a parent_id, it is a sub-model (e.g., Corolla).
 
-2. Framework Justifications (Valikute põhjendused)
+## 2. Framework Justifications (Valikute põhjendused)
 Spring Boot 3.x: Chosen for rapid development, built-in dependency injection, and seamless integration with the Spring ecosystem.
 PostgreSQL & Flyway: PostgreSQL provides reliable data persistence, while Flyway ensures that the database schema is version-controlled and automatically migrated across all environments (Local, CI, Production).
 Thymeleaf: Used for server-side rendering to keep the project's architecture simple and maintainable while providing dynamic UI capabilities.
 Mockito & JUnit 5: Essential for achieving the 98% code coverage. They allow for fast, isolated unit testing of the recursive logic without external dependencies.
 
-3. Development & Deployment (Paigaldus ja arendus)
+## 3. Development & Deployment (Paigaldus ja arendus)
 Automatic Setup: The environment is fully containerized with Docker Compose. A single command (docker-compose up) sets up the application, the database, and the Traefik reverse proxy.
 
 CI/CD: A GitHub Actions / GitLab CI pipeline is integrated to automate building, testing, and deploying to the live environment at carselector.mannikust.ee.
@@ -96,7 +96,7 @@ CI/CD: A GitHub Actions / GitLab CI pipeline is integrated to automate building,
 Git Policy: The commit history follows a clean, descriptive pattern, documenting the evolution of the project from initial setup to the final recursive implementation. 
 [View Full Commit History](docs/commit_history.txt)
 
-4. User Guide 
+## 4. User Guide 
 Browsing: Users see a hierarchical list of brands where sub-models are visually indented for better readability.
 Selection: Multi-select is supported. The recursive service ensures that the hierarchy is correctly mapped to the DTO layer for processing.
 Validation: The system provides real-time feedback if mandatory fields (e.g., Name) are missing or invalid.
