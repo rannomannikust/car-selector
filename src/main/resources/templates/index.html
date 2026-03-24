@@ -36,21 +36,21 @@
                 <!-- First name -->
                 <div class="mb-3">
                     <label class="form-label" th:text="#{form.firstname}">Eesnimi</label>
-                    <input type="text" th:field="*{firstName}" class="form-control" required>
-                    <div class="text-danger small" 
+                    <input type="text" th:field="*{firstName}" class="form-control">
+                    <p class="text-danger small" 
                          th:if="${#fields.hasErrors('firstName')}" 
-                         th:errors="*{firstName}">
-                    </div>
+                         th:errors="*{firstName}" style="color: red;">
+                    </p>
                 </div>
 
                 <!-- Last name -->
                 <div class="mb-3">
                     <label class="form-label" th:text="#{form.lastname}">Perenimi</label>
                     <input type="text" th:field="*{lastName}" class="form-control" required>
-                    <div class="text-danger small" 
+                    <p class="text-danger small"
                          th:if="${#fields.hasErrors('lastName')}" 
-                         th:errors="*{lastName}">
-                    </div>
+                         th:errors="*{lastName}" style="color: red;">
+                    </p>
                 </div>
 
                 <!-- Car brands -->
@@ -62,10 +62,10 @@
                                 th:utext="${brand.displayName}">
                         </option>
                     </select>
-                    <div class="text-danger small" 
+                    <p class="text-danger small" 
                          th:if="${#fields.hasErrors('selectedCarBrandIds')}" 
-                         th:errors="*{selectedCarBrandIds}">
-                    </div>
+                         th:errors="*{selectedCarBrandIds}" style="color: red;">
+                    </p>
                 </div>
 
                 <!-- License -->
