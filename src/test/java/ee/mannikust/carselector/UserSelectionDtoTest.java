@@ -2,9 +2,13 @@ package ee.mannikust.carselector;
 
 import ee.mannikust.carselector.dto.UserSelectionDto;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
+
+@ActiveProfiles("test")
 class UserSelectionDtoTest {
 
     @Test

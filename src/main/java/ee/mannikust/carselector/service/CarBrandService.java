@@ -8,7 +8,6 @@ import ee.mannikust.carselector.repository.CarBrandRepository;
 import ee.mannikust.carselector.repository.UserSelectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +19,12 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class CarBrandService {
     
-    @Autowired
     private final CarBrandRepository repository;
-
-    @Autowired
     private final UserSelectionRepository userSelectionRepository;
+    private final MessageSource messageSource;
 
 
-    /**
-     * Tagastab kõik automargid ja mudelid ühes lamedas (flat) nimekirjas,
-     * nimed on HTML tühikutega trepitud.
-     */
+
     public List<CarBrandDto> getHierarchicalCarBrands(Locale locale) {
         List<CarBrandDto> result = new ArrayList<>();
         
@@ -40,7 +34,6 @@ public class CarBrandService {
         for (CarBrand mainBrand : mainBrands) {
             String translated = translateBrandName(mainBrand.getName(), locale);
             // Lisame peamise margi nimekirja (ilma tühikuteta)
-            //result.add(new CarBrandDto(mainBrand.getId(), mainBrand.getName()));
             result.add(new CarBrandDto(mainBrand.getId(), translated));            
 
             // 2. Otsime selle margi kõik alam-mudelid (ja nende alam-mudelid)
@@ -81,15 +74,11 @@ public class CarBrandService {
         selection.setSelectedBrands(brands);
         
         userSelectionRepository.save(selection);
-    }    
+    } 
     
-    @Autowired
-    private MessageSource messageSource;
-
     private String translateBrandName(String name, Locale locale) {
         String key = "brand.name." + name.replace(" ", ".");
         return messageSource.getMessage(key, null, name, locale);
-
     }
 
 }
