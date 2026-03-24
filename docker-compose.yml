@@ -16,9 +16,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-      #build: .
-      image: ${IMAGE_NAME}
+      build: .
+      image: car-selector-app
       container_name: car-selector-app
+
       ports:
         - "8080:8080"
       environment:
