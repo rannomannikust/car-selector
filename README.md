@@ -21,6 +21,7 @@ A Spring Boot based web application for managing and selecting car brands with a
 
 ## 🧪 Quality Assurance & CI/CD
 This project follows modern DevOps practices to ensure high code quality and reliable deployments.
+Continuous Inspection: Automated quality gates using SonarCloud ensure that only code meeting strict maintainability and security standards is deployed to production.
 
 ### Code Coverage: **98%**
 The application achieves a 98% test coverage, focusing on both core business logic and web layer interactions.
