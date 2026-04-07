@@ -92,9 +92,6 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
 
   @Test
   void testShowIndexPageWhenNotDtoExists() throws Exception {
-    UserSelectionDto existingDto = new UserSelectionDto();
-    existingDto.setFirstName("Eeltäidetud");
-
     mockMvc
         .perform(get("/")) // Tavalise kasutaja esimene GET päring
         .andExpect(status().isOk())
