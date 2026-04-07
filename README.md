@@ -2,6 +2,9 @@
 
 A Spring Boot based web application for managing and selecting car brands with a hierarchical (recursive) structure. This project was developed as a technical assignment, focusing on clean code, automated testing, and containerized deployment.
 
+![CI Status](https://github.com/rannomannikust/car-selector/actions/workflows/ci.yml/badge.svg)
+![Deploy Status](https://github.com/rannomannikust/car-selector/actions/workflows/deploy.yml/badge.svg)
+
 ## 🚀 Key Features
 
 * **Hierarchical Car Brands:** Supports multi-level parent-child relationships between car brands (e.g., Audi -> A4).
@@ -22,6 +25,13 @@ A Spring Boot based web application for managing and selecting car brands with a
 ## 🧪 Quality Assurance & CI/CD
 This project follows modern DevOps practices to ensure high code quality and reliable deployments.
 Continuous Inspection: Automated static code analysis with SonarCloud runs on each change to highlight maintainability and security issues; results inform, but do not automatically block, deployments.
+This project uses **Spotless** for code formatting and GitHub Actions for CI/CD. Every push and pull request goes through an automated style check to maintain a clean and consistent codebase.
+
+**How to format code locally?**
+If the CI/CD pipeline fails due to formatting issues (e.g., incorrect indentation or trailing spaces), run the following command in your terminal to automatically fix the violations:
+
+```bash
+./mvnw spotless:apply
 
 ### Code Coverage: **98%**
 The application achieves a 98% test coverage, focusing on both core business logic and web layer interactions.
