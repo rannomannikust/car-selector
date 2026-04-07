@@ -91,7 +91,7 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
   }
 
   @Test
-  void testShowIndexPageWhenNotDtoExists() throws Exception {
+  void testShowIndexPageCreatesDtoWhenMissing() throws Exception {
     mockMvc
         .perform(get("/")) // Tavalise kasutaja esimene GET päring
         .andExpect(status().isOk())
