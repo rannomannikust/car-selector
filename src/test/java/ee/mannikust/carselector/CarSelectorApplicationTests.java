@@ -20,6 +20,7 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
   @Test
   void contextLoads() {}
 
+  @Test
   void testIndexPage() throws Exception {
     mockMvc
         .perform(get("/"))
