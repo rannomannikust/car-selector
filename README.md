@@ -15,7 +15,7 @@ A Spring Boot based web application for managing and selecting car brands with a
 
 ## 🛠️ Technical Stack
 
-* **Backend:** Java 17, Spring Boot 3.x, Spring Data JPA.
+* **Backend:** Java 21, Spring Boot 3.x, Spring Data JPA.
 * **Database:** PostgreSQL with **Flyway** for database migrations.
 * **Security:** Spring Security (CSRF protection enabled).
 * **Frontend:** Thymeleaf templates with Bootstrap for styling.

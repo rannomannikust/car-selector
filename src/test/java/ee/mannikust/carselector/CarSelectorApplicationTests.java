@@ -3,13 +3,16 @@ package ee.mannikust.carselector;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import ee.mannikust.carselector.dto.UserSelectionDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,15 +32,16 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
         .andExpect(model().attributeExists("carBrands")); // Kontrollib, et andmed on olemas
   }
 
+  @WithMockUser
   @Test
   void testSelectCar() throws Exception {
     mockMvc
         .perform(
             post("/save")
+                .with(csrf())
                 .param("firstName", "Jaan")
                 .param("lastName", "Tamm")
                 .param("hasLicense", "true")
-                // Kuna see on List, võime saata mitu parameetrit sama nimega
                 .param("selectedCarBrandIds", "30")
                 .param("selectedCarBrandIds", "10"))
         .andExpect(status().is3xxRedirection())
@@ -49,6 +53,7 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
     mockMvc
         .perform(
             post("/save")
+                .with(csrf())
                 .param("firstName", "") // Tühi eesnimi tekitab vea
                 .param("lastName", "Tamm"))
         .andExpect(status().isOk()) // Jääme samale lehele (200)
@@ -57,16 +62,14 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
   }
 
   @Test
+  @WithMockUser
   void testSaveSelectionWithErrors() throws Exception {
     mockMvc
         .perform(
             post("/save")
+                .with(csrf())
                 .param("firstName", "") // Tühi nimi tekitab valideerimisvea
-                .param("lastName", "")
-                // Jätame autod valimata
-                .with(
-                    org.springframework.security.test.web.servlet.request
-                        .SecurityMockMvcRequestPostProcessors.csrf()))
+                .param("lastName", ""))
         .andExpect(
             status().isOk()) // Ootame 200, sest meid ei suunata ümber, vaid näidatakse vormi uuesti
         .andExpect(view().name("index"))
