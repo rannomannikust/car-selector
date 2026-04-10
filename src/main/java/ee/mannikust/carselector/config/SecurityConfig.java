@@ -9,12 +9,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) { // <-- Eemaldatud throws
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) { // <-- Eemaldatud throws
     try {
-        return http.build();
+      return http.build();
     } catch (Exception e) {
-        throw new RuntimeException("Turvakonfiguratsiooni viga", e); // See ongi S112 viga!
+      throw new RuntimeException("Turvakonfiguratsiooni viga", e); // See ongi S112 viga!
     }
-}
+  }
 }
