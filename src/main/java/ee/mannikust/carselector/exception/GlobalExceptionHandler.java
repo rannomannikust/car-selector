@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(CarSelectorException.class)
   public String handleBusinessErrors(CarSelectorException ex, RedirectAttributes ra) {
     log.error("Äriloogika viga", ex);
-    ra.addFlashAttribute("errorMessage", ex.getMessage());
+    ra.addFlashAttribute(ERROR, ex.getMessage());
     return "redirect:/";
   }
 
