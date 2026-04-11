@@ -33,8 +33,6 @@ public class CarBrandController {
     if (!model.containsAttribute("userSelectionDto")) {
       model.addAttribute("userSelectionDto", new UserSelectionDto());
     }
-
-    // Tagastab faili nime, mida Spring otsib kataloogist src/main/resources/templates/
     return "index";
   }
 

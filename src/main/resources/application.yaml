@@ -7,5 +7,5 @@ spring:
     encoding: UTF-8
 
 profiles:
-    active: dev # Vaikimisi profiil lokaalseks arenduseks
+    active: dev 
 
