@@ -33,8 +33,8 @@ If the CI/CD pipeline fails due to formatting issues (e.g., incorrect indentatio
 ```bash
 ./mvnw spotless:apply
 
-### Code Coverage: **98%**
-The application achieves a 98% test coverage, focusing on both core business logic and web layer interactions.
+### Code Coverage: **96%**
+The application achieves a 96% test coverage, focusing on both core business logic and web layer interactions.
 ![Code Coverage](docs/images/coverage.png)
 
 The application achieves near-total test coverage, ensuring that all edge cases in the recursive logic and controller mappings are handled.
@@ -78,7 +78,7 @@ The application is fully containerized.
 * `src/main/java/.../service`: Contains the core logic for recursive brand tree building.
 * `src/main/java/.../controller`: Web controllers handling UI and form submissions.
 * `src/main/resources/db/migration`: Flyway SQL scripts for schema management.
-* `src/test/java/...`: Comprehensive test suite achieving 98% coverage.
+* `src/test/java/...`: Comprehensive test suite achieving 96% coverage.
 
 ---
 Developed by **Ranno Männikust**, March 2026.
