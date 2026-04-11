@@ -30,9 +30,9 @@ The project emphasizes clean architecture, separation of concerns, testability, 
 - Static Analysis: SonarCloud
 - Formatting: Spotless (Google Java Style)
 - Testing:
-- Service layer: JUnit 5 + Mockito
-- Web layer: @WebMvcTest
-- Database schema: Flyway migrations validated on startup
+  - Service layer: JUnit 5 + Mockito
+  - Web layer: @WebMvcTest
+  - Database schema: Flyway migrations validated on startup
 
 
 ### 📊 Code Coverage: **96%**
@@ -94,13 +94,13 @@ No HTML, no indentation, no UI logic.
 - View layer
 Thymeleaf renders indentation:
 
-``` Html
+``` html
 th:text="${'   '.repeat(brand.stepLevel) + brand.brandName}"
 ```
 - CSS
 Preserves whitespace:
 
-``` Css 
+``` css
 select option {
     white-space: pre;
 }
@@ -119,7 +119,7 @@ To handle manual ID inserts in PostgreSQL, the system includes sequence synchron
 
 - CSRF protection enabled
 - Thymeleaf auto-injects CSRF tokens
-- Traefik handles TLS terminatio
+- Traefik handles TLS termination
 
 # User Guide
 
