@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CarBrandDto {
   private Long id;
-  private String displayName;
+  private String brandName;
+  private int stepLevel;
 }
