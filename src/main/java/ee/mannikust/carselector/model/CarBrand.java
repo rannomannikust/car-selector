@@ -19,7 +19,6 @@ public class CarBrand {
   @Column(nullable = false)
   private String name;
 
-  // See annotatsioon loobki "trepi" ehk viitab sama tabeli teisele reale (vanemale)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_id")
   private CarBrand parent;

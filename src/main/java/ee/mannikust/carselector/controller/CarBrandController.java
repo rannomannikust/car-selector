@@ -50,7 +50,6 @@ public class CarBrandController {
         selection.getLastName());
 
     if (bindingResult.hasErrors()) {
-      // Kui on vigu, laeme automargid ja näitame vormi uuesti
       model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands(locale));
       log.warn("AUDIT: Kasutaja sisestas vigased andmed: {}", bindingResult.getAllErrors());
       return "index";
