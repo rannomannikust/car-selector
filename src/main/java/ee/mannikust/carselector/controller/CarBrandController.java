@@ -33,7 +33,6 @@ public class CarBrandController {
     if (!model.containsAttribute("userSelectionDto")) {
       model.addAttribute("userSelectionDto", new UserSelectionDto());
     }
-
     return "index";
   }
 
