@@ -22,42 +22,27 @@ public class CarBrandService {
 
   private final UserSelectionRepository userSelectionRepository;
 
-  /**
-   * Tagastab kõik automargid ja mudelid ühes lamedas (flat) nimekirjas, nimed on HTML tühikutega
-   * trepitud.
-   */
   public List<CarBrandDto> getHierarchicalCarBrands(Locale locale) {
     List<CarBrandDto> result = new ArrayList<>();
-
-    // 1. Otsime kõik peamised margid (parent on null), tähestikujärjekorras
     List<CarBrand> mainBrands = repository.findByParentIsNullOrderByNameAsc();
 
     for (CarBrand mainBrand : mainBrands) {
       String translated = translateBrandName(mainBrand.getName(), locale);
-      // Lisame peamise margi nimekirja (ilma tühikuteta)
-      result.add(new CarBrandDto(mainBrand.getId(), translated));
-
-      // 2. Otsime selle margi kõik alam-mudelid (ja nende alam-mudelid)
+      result.add(new CarBrandDto(mainBrand.getId(), translated, 0));
       addSubBrands(mainBrand.getId(), 1, result, locale);
     }
 
     return result;
   }
 
-  /**
-   * Rekursiivne abimeetod, mis otsib vanema ID järgi mudelid ja alam-mudelid ja lisab neile õige
-   * arvu tühikuid
-   */
-  private void addSubBrands(Long parentId, int level, List<CarBrandDto> result, Locale locale) {
+  private void addSubBrands(Long parentId, int stepLevel, List<CarBrandDto> result, Locale locale) {
     List<CarBrand> subBrands = repository.findByParentIdOrderByNameAsc(parentId);
 
     for (CarBrand subBrand : subBrands) {
       String translated = translateBrandName(subBrand.getName(), locale);
 
-      String prefix = "&nbsp;".repeat(level * 3);
-
-      result.add(new CarBrandDto(subBrand.getId(), prefix + translated));
-      addSubBrands(subBrand.getId(), level + 1, result, locale);
+      result.add(new CarBrandDto(subBrand.getId(), translated, stepLevel));
+      addSubBrands(subBrand.getId(), stepLevel + 1, result, locale);
     }
   }
 
@@ -68,7 +53,6 @@ public class CarBrandService {
     selection.setLastName(dto.getLastName());
     selection.setHasLicense(dto.isHasLicense());
 
-    // Leiame andmebaasist kõik valitud margid nende ID-de järgi
     List<CarBrand> brands = repository.findAllById(dto.getSelectedCarBrandIds());
     selection.setSelectedBrands(brands);
 
