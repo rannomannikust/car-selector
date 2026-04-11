@@ -1,3 +1,0 @@
-select option {
-    padding-left: calc(var(--level) * 12px);
-}

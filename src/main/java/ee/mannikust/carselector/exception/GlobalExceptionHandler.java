@@ -24,6 +24,6 @@ public class GlobalExceptionHandler {
   public String handleAllUncaughtErrors(Exception ex, Model model) {
     log.error("Süsteemne viga", ex);
     model.addAttribute(ERROR, "Vabandust, tekkis ootamatu süsteemne viga.");
-    return ERROR; // Suunab error.html lehele
+    return ERROR;
   }
 }

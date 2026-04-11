@@ -34,7 +34,6 @@ public class CarBrandController {
       model.addAttribute("userSelectionDto", new UserSelectionDto());
     }
 
-    // Tagastab faili nime, mida Spring otsib kataloogist src/main/resources/templates/
     return "index";
   }
 
@@ -52,7 +51,6 @@ public class CarBrandController {
         selection.getLastName());
 
     if (bindingResult.hasErrors()) {
-      // Kui on vigu, laeme automargid ja näitame vormi uuesti
       model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands(locale));
       log.warn("AUDIT: Kasutaja sisestas vigased andmed: {}", bindingResult.getAllErrors());
       return "index";

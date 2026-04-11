@@ -17,5 +17,5 @@ public class UserSelectionDto {
   @NotEmpty(message = "{validation.brands.empty}")
   private List<Long> selectedCarBrandIds;
 
-  private boolean hasLicense; // Uus väli, mis näitab, kas kasutajal on juhiluba
+  private boolean hasLicense;
 }

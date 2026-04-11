@@ -15,8 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
   @Bean
   public LocaleResolver localeResolver() {
     SessionLocaleResolver slr = new SessionLocaleResolver();
-    // Java 19+ soovituslik viis: Locale.of("et")
-    // või Locale.forLanguageTag("et")
     slr.setDefaultLocale(Locale.of("et"));
     return slr;
   }
