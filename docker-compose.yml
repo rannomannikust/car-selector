@@ -16,7 +16,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   app:
-      build: .
       image: car-selector-local
       container_name: car-selector-app
       ports:
