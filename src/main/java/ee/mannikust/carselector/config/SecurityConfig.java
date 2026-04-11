@@ -13,12 +13,8 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) {
     try {
-      http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/save").permitAll()
-                .anyRequest().permitAll()
-            )
-
+      http.authorizeHttpRequests(
+              auth -> auth.requestMatchers("/", "/save").permitAll().anyRequest().permitAll())
           .formLogin(form -> form.disable())
           .httpBasic(basic -> basic.disable());
 
