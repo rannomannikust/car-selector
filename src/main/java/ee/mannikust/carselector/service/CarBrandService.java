@@ -52,14 +52,11 @@ public class CarBrandService {
     List<CarBrand> subBrands = repository.findByParentIdOrderByNameAsc(parentId);
 
     for (CarBrand subBrand : subBrands) {
-      // Tekitame HTML tühikud (non-breaking spaces) vastavalt hierarhia sügavusele
       String translated = translateBrandName(subBrand.getName(), locale);
 
       String prefix = "&nbsp;".repeat(level * 3);
 
       result.add(new CarBrandDto(subBrand.getId(), prefix + translated));
-      // Juhuks, kui mudelil on omakorda alam-mudelid (nt 3 seeria -> 316), kutsume meetodit uuesti
-      // välja
       addSubBrands(subBrand.getId(), level + 1, result, locale);
     }
   }

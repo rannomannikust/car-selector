@@ -21,7 +21,6 @@ public class CarBrandController {
   private final CarBrandService carBrandService;
   private final MessageSource messageSource;
 
-  // Süstime teenuse (Service) kontrollerisse
   public CarBrandController(CarBrandService carBrandService, MessageSource messageSource) {
     this.carBrandService = carBrandService;
     this.messageSource = messageSource;
@@ -29,10 +28,8 @@ public class CarBrandController {
 
   @GetMapping("/")
   public String showIndexPage(Model model, Locale locale) {
-    // Kutsume välja oma treppimise loogika ja lisame tulemuse Thymeleaf mudelisse
     model.addAttribute("carBrands", carBrandService.getHierarchicalCarBrands(locale));
 
-    // Lisame tühja objekti, et vormil oleks midagi, millega end siduda
     if (!model.containsAttribute("userSelectionDto")) {
       model.addAttribute("userSelectionDto", new UserSelectionDto());
     }
@@ -62,7 +59,6 @@ public class CarBrandController {
     }
 
     carBrandService.saveUserSelection(selection);
-    // Kui vigu pole, võime saata teate
     String msg = messageSource.getMessage("success.message", null, locale);
     redirectAttributes.addFlashAttribute("successMessage", msg);
     log.info("AUDIT: Kasutaja valik edukalt salvestatud andmebaasi.");

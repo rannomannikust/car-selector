@@ -1,43 +1,36 @@
 package ee.mannikust.carselector;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import ee.mannikust.carselector.dto.UserSelectionDto;
+import ee.mannikust.carselector.exception.CarSelectorException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class CarSelectorApplicationTests extends BaseIntegrationTest {
-
-  @Autowired private MockMvc mockMvc;
-
-  @Test
-  void contextLoads() {}
+class CarSelectorApplicationTests extends BaseWebIntegrationTest {
 
   @Test
   void testIndexPage() throws Exception {
     mockMvc
         .perform(get("/"))
         .andExpect(status().isOk())
-        .andExpect(view().name("index")) // Kontrollib, et kuvatakse index.html
-        .andExpect(model().attributeExists("carBrands")); // Kontrollib, et andmed on olemas
+        .andExpect(view().name("index"))
+        .andExpect(model().attributeExists("carBrands"));
   }
 
+  @WithMockUser
   @Test
   void testSelectCar() throws Exception {
     mockMvc
         .perform(
             post("/save")
+                .with(csrf())
                 .param("firstName", "Jaan")
                 .param("lastName", "Tamm")
                 .param("hasLicense", "true")
-                // Kuna see on List, võime saata mitu parameetrit sama nimega
                 .param("selectedCarBrandIds", "30")
                 .param("selectedCarBrandIds", "10"))
         .andExpect(status().is3xxRedirection())
@@ -47,28 +40,18 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
   @Test
   void testSaveCarSelectionValidationError() throws Exception {
     mockMvc
-        .perform(
-            post("/save")
-                .param("firstName", "") // Tühi eesnimi tekitab vea
-                .param("lastName", "Tamm"))
-        .andExpect(status().isOk()) // Jääme samale lehele (200)
+        .perform(post("/save").with(csrf()).param("firstName", "").param("lastName", "Tamm"))
+        .andExpect(status().isOk())
         .andExpect(view().name("index"))
-        .andExpect(model().hasErrors()); // Kontrollime, et vead on olemas
+        .andExpect(model().hasErrors());
   }
 
   @Test
+  @WithMockUser
   void testSaveSelectionWithErrors() throws Exception {
     mockMvc
-        .perform(
-            post("/save")
-                .param("firstName", "") // Tühi nimi tekitab valideerimisvea
-                .param("lastName", "")
-                // Jätame autod valimata
-                .with(
-                    org.springframework.security.test.web.servlet.request
-                        .SecurityMockMvcRequestPostProcessors.csrf()))
-        .andExpect(
-            status().isOk()) // Ootame 200, sest meid ei suunata ümber, vaid näidatakse vormi uuesti
+        .perform(post("/save").with(csrf()).param("firstName", "").param("lastName", ""))
+        .andExpect(status().isOk())
         .andExpect(view().name("index"))
         .andExpect(model().attributeExists("carBrands"))
         .andExpect(model().hasErrors());
@@ -80,33 +63,24 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
     existingDto.setFirstName("Eeltäidetud");
 
     mockMvc
-        .perform(
-            get("/").flashAttr("userSelectionDto", existingDto)) // Paneme objekti mudelisse ette
+        .perform(get("/").flashAttr("userSelectionDto", existingDto))
         .andExpect(status().isOk())
-        .andExpect(
-            model()
-                .attribute(
-                    "userSelectionDto", existingDto)) // Kontrollime, et seda ei kirjutatud üle
+        .andExpect(model().attribute("userSelectionDto", existingDto))
         .andExpect(view().name("index"));
   }
 
   @Test
   void testShowIndexPageCreatesDtoWhenMissing() throws Exception {
     mockMvc
-        .perform(get("/")) // Tavalise kasutaja esimene GET päring
+        .perform(get("/"))
         .andExpect(status().isOk())
         .andExpect(view().name("index"))
-        .andExpect(
-            model()
-                .attributeExists(
-                    "userSelectionDto")); // Kontrollime, et kontroller ise lõi mudelisse uue
-    // (tühja) objekti
+        .andExpect(model().attributeExists("userSelectionDto"));
   }
 
   @Test
   void testInitialLoad() throws Exception {
     mockMvc.perform(get("/")).andExpect(status().isOk());
-    // See test läheb IF-lause sisse, sest mudel on tühi.
   }
 
   @Test
@@ -114,6 +88,15 @@ class CarSelectorApplicationTests extends BaseIntegrationTest {
     mockMvc
         .perform(get("/").flashAttr("userSelectionDto", new UserSelectionDto()))
         .andExpect(status().isOk());
-    // See test EI LÄHE IF-lause sisse, sest me andsime objekti ette.
+  }
+
+  @Test
+  void testCarSelectorExceptionWithCause() {
+    RuntimeException cause = new RuntimeException("Algne viga");
+
+    CarSelectorException exception = new CarSelectorException("Äriloogika viga", cause);
+
+    assertEquals("Äriloogika viga", exception.getMessage());
+    assertEquals(cause, exception.getCause());
   }
 }

@@ -1,22 +1,23 @@
 package ee.mannikust.carselector;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ee.mannikust.carselector.dto.UserSelectionDto;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class UserSelectionDtoTest extends BaseIntegrationTest {
+class UserSelectionDtoTest {
 
   @Test
-  void testDtoGettersAndSetters() {
+  void testDto() {
     UserSelectionDto dto = new UserSelectionDto();
     dto.setFirstName("Kalle");
-    dto.setLastName("Karu");
-    dto.setSelectedCarBrandIds(List.of(1L, 2L));
-
-    assertEquals("Kalle", dto.getFirstName());
-    assertEquals("Karu", dto.getLastName());
-    assertEquals(2, dto.getSelectedCarBrandIds().size());
+    dto.setLastName("Suslik");
+    dto.setHasLicense(true);
+    assertAll(
+        () -> assertEquals("Kalle", dto.getFirstName()),
+        () -> assertEquals("Suslik", dto.getLastName()),
+        () -> assertTrue(dto.isHasLicense()));
   }
 }
