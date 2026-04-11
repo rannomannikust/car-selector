@@ -10,11 +10,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) { // <-- Eemaldatud throws
-    try {
-      return http.build();
-    } catch (Exception e) {
-      throw new RuntimeException("Turvakonfiguratsiooni viga", e); // See ongi S112 viga!
-    }
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+        .formLogin(form -> form.disable())
+        .httpBasic(basic -> basic.disable());
+
+    return http.build();
   }
 }
