@@ -7,12 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ee.mannikust.carselector.dto.UserSelectionDto;
 import ee.mannikust.carselector.exception.CarSelectorException;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
 class CarSelectorApplicationTests extends BaseWebIntegrationTest {
-    
 
   @Test
   void testIndexPage() throws Exception {
@@ -93,12 +91,12 @@ class CarSelectorApplicationTests extends BaseWebIntegrationTest {
   }
 
   @Test
-    void testCarSelectorExceptionWithCause() {
-        RuntimeException cause = new RuntimeException("Algne viga");
-        
-        CarSelectorException exception = new CarSelectorException("Äriloogika viga", cause);
-        
-        assertEquals("Äriloogika viga", exception.getMessage());
-        assertEquals(cause, exception.getCause());
-    }
+  void testCarSelectorExceptionWithCause() {
+    RuntimeException cause = new RuntimeException("Algne viga");
+
+    CarSelectorException exception = new CarSelectorException("Äriloogika viga", cause);
+
+    assertEquals("Äriloogika viga", exception.getMessage());
+    assertEquals(cause, exception.getCause());
+  }
 }

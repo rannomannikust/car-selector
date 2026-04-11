@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  
+
   private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
   private static final String ERROR = "error";
 
