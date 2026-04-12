@@ -32,7 +32,7 @@
                 <span th:text="${successMessage}"></span>
             </div>
 
-            <form th:action="@{/save}" th:object="${userSelectionDto}" method="post">
+            <form th:action="@{/save}" th:object="${userSelectionDto}" method="post" autocomplete="off">
 
                 <!-- First name -->
                 <div class="mb-3">
@@ -56,7 +56,7 @@
                 <!-- Car brands -->
                 <div class="mb-3">
                     <label for="selectedCarBrandIds" class="form-label" th:text="#{form.brands}">Automargid</label>
-                    <select th:field="*{selectedCarBrandIds}" id="selectedCarBrandIds" multiple class="form-select" size="10" style="white-space: pre;">
+                    <select th:field="*{selectedCarBrandIds}" id="selectedCarBrandIds" multiple class="form-select" size="10">
                         <option th:each="brand : ${carBrands}"
                                 th:value="${brand.id}"
                                 th:text="${'&#160;&#160;&#160;'.repeat(brand.stepLevel) + brand.brandName}">

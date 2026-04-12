@@ -2,7 +2,7 @@ CREATE TABLE user_selections (
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    has_license BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE user_selection_car_brands (
