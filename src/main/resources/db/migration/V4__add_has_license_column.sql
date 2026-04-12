@@ -1,2 +1,0 @@
-ALTER TABLE user_selections
-ADD COLUMN has_license BOOLEAN DEFAULT FALSE;
