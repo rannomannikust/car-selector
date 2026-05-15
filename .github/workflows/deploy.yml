@@ -67,6 +67,6 @@ jobs:
           script: |
             cd /opt/car-selector
             # Määrame mõlemad failid -f lipuga. Järjekord on oluline!
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml down
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
+            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
